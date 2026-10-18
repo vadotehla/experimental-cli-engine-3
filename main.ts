@@ -41,6 +41,24 @@ while (x < argv.length) {
         };
 
         Nodes.push(Node);
+        done = true;
+      } else {
+        const FlagName: string = CurrentElement.startsWith("--")
+          ? CurrentElement.slice(2)
+          : CurrentElement.slice(1);
+        let FlagValue: string | null = x + 1 < argv.length ? argv[x + 1] : null;
+
+        if (FlagValue?.startsWith("-")) FlagValue = null;
+        if (FlagValue !== null) x++;
+
+        const Node: types.ASTNodes.Node = {
+          Type: types.ASTNodes.NodeType.FLAG,
+          Name: FlagName,
+          Value: FlagValue ?? true,
+        };
+
+        Nodes.push(Node);
+        done = true;
       }
     }
   }
